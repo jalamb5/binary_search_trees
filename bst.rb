@@ -17,12 +17,11 @@ class Tree
 
   def build_tree(array)
     array = array.sort.uniq
-    mid = array.median
-    mid_index = array.index(mid)
+    mid = array.length/2
     root = Node.new(mid)
 
-    left_tree = array.slice(0..mid_index)
-    right_tree = array.slice(mid_index + 1...array.length)
+    left_tree = array.slice(0..mid)
+    right_tree = array.slice(mid + 1...array.length)
 
     array.each do |n|
       # call a new Node with each item in array
