@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
+# Generate each item in tree and store left and right branches
 class Node
-  include Comparable
+  attr_accessor :data, :left, :right
 
   def initialize(data)
     @data = data
@@ -8,26 +11,29 @@ class Node
   end
 end
 
+# Generate a bst of nodes based on values from an array (array must be sorted and contain only unique values)
 class Tree
-  attr_accessor :root
+  attr_accessor :root, :data
 
-  def initialize
-    @root = root
+  def initialize(array)
+    @data = array.sort.uniq
+    @root = build_tree(data)
   end
 
   def build_tree(array)
-    array = array.sort.uniq
-    mid = array.length/2
-    root = Node.new(mid)
+    return nil if array.empty?
 
-    left_tree = array.slice(0..mid)
-    right_tree = array.slice(mid + 1...array.length)
+    mid = (array.length - 1) / 2
+    root_node = Node.new(array[mid])
 
-    array.each do |n|
-      # call a new Node with each item in array
-      Node.new(n)
-    end
+    left_tree = array.slice(0...mid)
+    right_tree = array.slice((mid + 1)..-1)
+    root_node.left = build_tree(left_tree)
+    root_node.right = build_tree(right_tree)
+
+    root_node
   end
 end
 
-p Tree.new.build_tree([5,6,7,8])
+my_tree = Tree.new([5, 6, 7, 8])
+p my_tree
