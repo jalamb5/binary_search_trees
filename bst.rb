@@ -91,6 +91,11 @@ class Tree
 
   def postorder(node = root)
     # Left Right Root
+    return if node.nil?
+
+    postorder(node.left)
+    postorder(node.right)
+    print "#{node.data} "
   end
 
 end
@@ -100,3 +105,5 @@ my_tree.insert(7)
 my_tree.delete(5)
 my_tree.find(6)
 my_tree.preorder
+my_tree.inorder
+my_tree.postorder
