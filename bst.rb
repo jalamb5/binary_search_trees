@@ -98,12 +98,24 @@ class Tree
     print "#{node.data} "
   end
 
+  def height(node = root)
+    left_node, right_node = node, node
+    left_height = 0
+    right_height = 0
+    until left_node.nil?
+      left_node = left_node.left
+      left_height += 1
+    end
+    until right_node.nil?
+      right_node = right_node.right
+      right_height += 1
+    end
+    left_height > right_height ? left_height : right_height
+  end
 end
 
-my_tree = Tree.new([5, 6, 8, 9])
+my_tree = Tree.new([5, 6, 8, 9, 10, 11, 12, 13, 14, 15])
 my_tree.insert(7)
-my_tree.delete(5)
-my_tree.find(6)
-my_tree.preorder
-my_tree.inorder
-my_tree.postorder
+my_tree.find(9)
+
+p my_tree.height
