@@ -33,7 +33,62 @@ class Tree
 
     root_node
   end
+
+  def insert(value)
+    current_node = root
+    until current_node.nil?
+      parent_node = current_node
+      current_node = value > current_node.data ? current_node.right : current_node.left
+    end
+    current_node = Node.new(value)
+    parent_node.data < current_node.data ? parent_node.right = current_node : parent_node.left = current_node
+  end
+
+  def delete(value)
+    current_node = root
+    until current_node.data == value
+      parent_node = current_node
+      current_node = value > current_node.data ? current_node.right : current_node.left
+    end
+    parent_node.data < current_node.data ? parent_node.right = nil : parent_node.left = nil
+    current_node = nil
+  end
+
+  def find(value)
+    current_node = root
+    until current_node.data == value
+      current_node = value > current_node.data ? current_node.right : current_node.left
+    end
+    current_node
+  end
+
+  def level_order(node = root, queue = [])
+    print "#{node.data} "
+    queue << node.left unless node.left.nil?
+    queue << node.right unless node.right.nil?
+    return nil if queue.empty?
+
+    level_order(queue.shift, queue)
+  end
+
+  def preorder(node = root)
+    # Root Left Right
+    
+  end
+
+  def inorder(node = root)
+    # Left Root Right
+  end
+
+  def postorder(node = root)
+    # Left Right Root
+  end
+
 end
 
-my_tree = Tree.new([5, 6, 7, 8])
+my_tree = Tree.new([5, 6, 8, 9])
+my_tree.insert(7)
+my_tree.delete(5)
+p my_tree.find(6)
 p my_tree
+my_tree.level_order
