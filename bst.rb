@@ -73,11 +73,20 @@ class Tree
 
   def preorder(node = root)
     # Root Left Right
-    
+    return if node.nil?
+
+    print "#{node.data} "
+    preorder(node.left)
+    preorder(node.right)
   end
 
   def inorder(node = root)
     # Left Root Right
+    return if node.nil?
+
+    inorder(node.left)
+    print "#{node.data} "
+    inorder(node.right)
   end
 
   def postorder(node = root)
@@ -89,6 +98,5 @@ end
 my_tree = Tree.new([5, 6, 8, 9])
 my_tree.insert(7)
 my_tree.delete(5)
-p my_tree.find(6)
-p my_tree
-my_tree.level_order
+my_tree.find(6)
+my_tree.preorder
