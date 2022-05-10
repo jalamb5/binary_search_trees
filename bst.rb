@@ -124,30 +124,66 @@ class Tree
     depth_count
   end
 
-  def balanced?
-    # diff between height of left subtree and right subtree is no more than 1
-    left_node, right_node = root, root
-    left_height = 0
-    right_height = 0
-    until left_node.nil?
-      left_node = left_node.left
-      left_height += 1
-    end
-    until right_node.nil?
-      right_node = right_node.right
-      right_height += 1
-    end
-    larger = left_height > right_height ? left_height : right_height
-    smaller = left_height < right_height ? left_height : right_height
-    return true if (larger - smaller) <= 1
-    return false if (larger - smaller) > 1
+  # def balanced?
+  #   # diff between height of left subtree and right subtree is no more than 1
+  #   left_node, right_node = root, root
+  #   left_height = 0
+  #   right_height = 0
+  #   until left_node.nil?
+  #     left_node = left_node.left
+  #     left_height += 1
+  #   end
+  #   until right_node.nil?
+  #     right_node = right_node.right
+  #     right_height += 1
+  #   end
+  #   larger = left_height > right_height ? left_height : right_height
+  #   smaller = left_height < right_height ? left_height : right_height
+  #   return true if (larger - smaller) <= 1
+  #   return false if (larger - smaller) > 1
+  # end
+
+  def balanced?(node = root)
+    return true if node.nil?
+
+    left_height = height(node.left)
+    right_height = height(node.right)
+
+    return true if (left_height - right_height).abs <= 1 && balanced?(node.left) && balanced?(node.right)
+
+    false
   end
+
+  def preorder_values(node = root, array = [])
+    return if node.nil?
+
+    array << node.data
+    preorder_values(node.left, array)
+    preorder_values(node.right, array)
+    array
+  end
+
+  def rebalance
+    self.data = preorder_values
+    self.root = Tree.new(data)
+  end
+
+  def pretty_print(node = @root, prefix = '', is_left = true)
+    pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
+    puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
+    pretty_print(node.left, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left
+  end
+
 end
 
 my_tree = Tree.new([5, 6, 8, 9, 10, 11, 12, 13, 14, 15])
 my_tree.insert(7)
 
 item = my_tree.find(14)
-
-p my_tree.depth(item)
 p my_tree.balanced?
+my_tree.pretty_print
+p my_tree.balanced?
+my_tree.rebalance
+my_tree.pretty_print
+p my_tree.balanced?
+
