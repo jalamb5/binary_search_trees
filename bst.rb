@@ -112,10 +112,21 @@ class Tree
     end
     left_height > right_height ? left_height : right_height
   end
+
+  def depth(node = root)
+    current_node = root
+    value = node.data
+    depth_count = 0
+    until current_node.data == value
+      current_node = value > current_node.data ? current_node.right : current_node.left
+      depth_count += 1
+    end
+    depth_count
+  end
 end
 
 my_tree = Tree.new([5, 6, 8, 9, 10, 11, 12, 13, 14, 15])
 my_tree.insert(7)
-my_tree.find(9)
+item = my_tree.find(14)
 
-p my_tree.height
+p my_tree.depth(item)
