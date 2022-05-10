@@ -123,10 +123,31 @@ class Tree
     end
     depth_count
   end
+
+  def balanced?
+    # diff between height of left subtree and right subtree is no more than 1
+    left_node, right_node = root, root
+    left_height = 0
+    right_height = 0
+    until left_node.nil?
+      left_node = left_node.left
+      left_height += 1
+    end
+    until right_node.nil?
+      right_node = right_node.right
+      right_height += 1
+    end
+    larger = left_height > right_height ? left_height : right_height
+    smaller = left_height < right_height ? left_height : right_height
+    return true if (larger - smaller) <= 1
+    return false if (larger - smaller) > 1
+  end
 end
 
 my_tree = Tree.new([5, 6, 8, 9, 10, 11, 12, 13, 14, 15])
 my_tree.insert(7)
+
 item = my_tree.find(14)
 
 p my_tree.depth(item)
+p my_tree.balanced?
